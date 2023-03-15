@@ -1,55 +1,84 @@
 import React from "react";
 import '../index.css';
-import App from './App';
+import vector from '../images/Vector.svg';
+import api from '../utils/Api';
+import Card from './Card';
 
-function Main() {
-  
-  function handleEditProfileClick() {
-    document.querySelector('.popup-edit-profile').classList.add('popup_opened')}
+function Main(props) {
 
-  function handleAddPlaceClick() {
-    document.querySelector('.popup-add-profile').classList.add('popup_opened')}
+  const [userName, setUserName] = React.useState(null);
+  const [userDescription, setUserDescription] = React.useState(null);
+  const [userAvatar, setUserAvatar] = React.useState(null);
+  const [cards, setCards] = React.useState([]);
 
-    function handleEditAvatarClick() {
-      document.querySelector('.popup-avatar-edit').classList.add('popup_opened')}
+  React.useEffect(() => {
+    api.getUserInfo()
+      .then((data) => {
+        return (
+          setUserName(data.name),
+          setUserDescription(data.about),
+          setUserAvatar(data.avatar)
+        )
+        })
+      .catch((error) => console.log(`Произошла ошибка: ${error}`))
 
+    }, [])
 
+    React.useEffect(() => {
+    api.getInitialCards()
+      .then((data) => {
+        setCards(
+          data.map((card) => ({
+            name: card.name,
+            link: card.link,
+            likes: card.likes,
+            cardId: card._id,
+        }))
+        )
+      })
+      .catch((error) => console.log(`Произошла ошибка: ${error}`));
+  }, [])
 
     return (
-        <main className="content">
-      <section className="profile">
-        <div className="profile__container">
-          <div className="profile__container-avatar">
-            <img className="profile__avatar" src="<%=require('./images/Avatar.jpg')%>" alt="Аватар" />
-            <button className="profile__avatar-edit" type="button" aria-label="Редактировать" onClick={handleEditAvatarClick}>
-              <img className="profile__avatar-pen" src="<%=require('./images/Vector.svg')%>" alt="Ручка" />
-            </button>
-          </div>
-          <div className="profile__info">
-            <h1 className="profile__title">Жак-Ив Кусто</h1>
-            <button className="profile__edit-button" type="button" aria-label="Редактировать" onClick={handleEditProfileClick}></button>
-            <p className="profile__subtitle">Исследователь океана</p> 
-          </div>
-        </div>
-        <button className="profile__add-button" type="button" aria-label="Добавить" onClick={handleAddPlaceClick}></button>
-      </section>
-      <section className="elements"></section>
-
-        <template id="template">
-          <article className="element">
-            <img className="element__mask-group" src="#" alt="Фотографии городов" />
-            <button className="element__trash" type="button" aria-label="Удалить"></button>
-            <div className="element__rectangle">
-              <h2 className="element__title"></h2>
-              <div className="element__container-like">
-                <button className="element__like-button"></button>
-                <span className="element__like-number">0</span>
-              </div>
+      <main className="content">
+        <section className="profile">
+          <div className="profile__container">
+            <div className="profile__container-avatar">
+              <img className="profile__avatar" alt="Аватар" src={userAvatar} />
+              <button 
+                className="profile__avatar-edit" 
+                type="button" aria-label="Редактировать" 
+                onClick={() => {props.onEditAvatar(true)}}>
+                <img className="profile__avatar-pen" src={vector} alt="Ручка" />
+              </button>
             </div>
-          </article>
-        </template>
-
-    </main> 
+            <div className="profile__info">
+              <h1 className="profile__title">{userName}</h1>
+              <button 
+                className="profile__edit-button" 
+                type="button" 
+                aria-label="Редактировать" 
+                onClick={() => {props.onEditProfile(true)}}>
+              </button>
+              <p className="profile__subtitle">{userDescription}</p> 
+            </div>
+          </div>
+          <button 
+            className="profile__add-button" 
+            type="button" aria-label="Добавить" 
+            onClick={() => {props.onAddPlace(true)}}>
+          </button>
+        </section>
+        <section className="elements">
+          {cards.map((card) => (
+            <Card 
+              key={card.cardId}
+              link={card.link}
+              name={card.name}
+              likes={card.likes}
+              onCardClick={props.onCardClick} />))}
+          </section>
+      </main> 
     );
   }
   
