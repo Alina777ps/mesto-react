@@ -8,7 +8,7 @@ function PopupWithForm(props) {
         <div className="popup__container" onClick={e => e.stopPropagation()} >
           <button className="popup__close-icon" type="button" aria-label="Закрыть" onClick={props.onClose}></button>
           <h2 className="popup__title">{props.title}</h2>
-          <form className="popup__form" name="${props.name}" noValidate>
+          <form className="popup__form"  name={`${props.name}`} noValidate>
             <fieldset className="popup__fieldset">
               {props.children}
             </fieldset>
