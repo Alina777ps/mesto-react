@@ -47,7 +47,7 @@ return this._handleResponse(res);
 }
 
   //редактирование профиля
-  async editProfile(data) {
+  async setUserInfo(data) {
       const res = await fetch(`${this._url}/users/me`, {
           method: "PATCH",
           headers: this._headers,
@@ -60,7 +60,7 @@ return this._handleResponse(res);
   }
 
   // обновления аватара
-  async updateAvatar(data) {
+  async setUserAvatar(data) {
       const res = await fetch(`${this._url}/users/me/avatar`, {
           method: "PATCH",
           headers: this._headers,
