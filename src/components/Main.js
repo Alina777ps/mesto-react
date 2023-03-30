@@ -45,6 +45,7 @@ function Main(props) {
               card={card}
               onCardClick={props.onCardClick}
               onCardLike={props.onCardLike}
+              onConfirmationPopup={props.onConfirmationPopup}
               onCardDelete={props.onCardDelete}
               />))}
           </section>
