@@ -29,6 +29,8 @@ function App() {
 
   const [cards, setCards] = React.useState([]);
 
+  const [isLoading, setIsLoading] = React.useState(false);
+
   React.useEffect(() => {
     api
       .getUserInfo()
@@ -74,40 +76,48 @@ function App() {
   } 
 
   function handleCardDelete(card) {
+    setIsLoading(true);
     api
       .deleteCard(card._id)
       .then(() => {
-        setCards((cadrs) => cadrs.filter((item) => item._id !== card._id))
+        setCards((cadrs) => cadrs.filter((item) => item._id !== card._id));
+        setIsLoading(false);
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`))
       closeAllPopups()
   }
 
   function handleUpdateUser(currentUser) {
+    setIsLoading(true);
     api
       .setUserInfo(currentUser)
       .then((data) => {
         setCurrentUser(data);
+        setIsLoading(false);
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`));
       closeAllPopups()
   }
 
   function handleUpdateAvatar(currentUser) {
+    setIsLoading(true);
     api
       .setUserAvatar(currentUser)
       .then((data) => {
         setCurrentUser(data);
+        setIsLoading(false);
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`));
       closeAllPopups()
   }
 
   function handleAddPlaceSubmit(card) {
+    setIsLoading(true);
     api
       .addNewCard(card)
       .then((newCard) => {
-        setCards([newCard, ...cards]); 
+        setCards([newCard, ...cards]);
+        setIsLoading(false);
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`))
       closeAllPopups()
@@ -133,23 +143,27 @@ function App() {
         <EditProfilePopup 
           isOpen={isEditProfilePopupOpen} 
           onClose={closeAllPopups} 
-          onUpdateUser={handleUpdateUser} />
+          onUpdateUser={handleUpdateUser}
+          isLoading={isLoading} />
 
         <AddPlacePopup 
           isOpen={isAddPlacePopupOpen} 
           onClose={closeAllPopups}
-          onAddPlace={handleAddPlaceSubmit} />
+          onAddPlace={handleAddPlaceSubmit}
+          isLoading={isLoading} />
 
         <EditAvatarPopup 
           isOpen={isEditAvatarPopupOpen} 
           onClose={closeAllPopups} 
-          onUpdateAvatar={handleUpdateAvatar}/>
+          onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}/>
 
         <ConfirmationPopup 
           onClose={closeAllPopups}
           isOpen={isConfirmationPopupOpen}
           onCardDelete={handleCardDelete}
-          card={deleteCard} />
+          card={deleteCard}
+          isLoading={isLoading} />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 

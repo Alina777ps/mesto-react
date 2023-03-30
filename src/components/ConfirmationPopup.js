@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from './PopupWithForm';
 
-function ConfirmationPopup({ onClose, isOpen, onCardDelete, card }) {
+function ConfirmationPopup({ onClose, isOpen, onCardDelete, card, isLoading }) {
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -15,7 +15,9 @@ function ConfirmationPopup({ onClose, isOpen, onCardDelete, card }) {
           button='Да' 
           isOpen={isOpen} 
           onClose={onClose}
-          onSubmit={handleSubmit}/>
+          onSubmit={handleSubmit}
+          buttonIsLoading="Удаление..."
+          isLoading={isLoading}/>
     )
 
 }

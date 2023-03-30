@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
 
     const [name, setName] = React.useState('');
     const [link, setLink] = React.useState('');
@@ -43,7 +43,9 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           button='Создать' 
           isOpen={isOpen} 
           onClose={onClose}
-          onSubmit={handleSubmit} >
+          onSubmit={handleSubmit}
+          buttonIsLoading="Создать..."
+          isLoading={isLoading} >
           <label className="popup__label">
             <input className="popup__input popup__input_type_image-name" value={name} onChange={handleChangeName} type="text" placeholder="Название" id="nameImage" name="name" minLength={2} maxLength={30} required />
             <span className="nameImage-error popup__input-error"></span>
