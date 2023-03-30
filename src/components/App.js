@@ -82,9 +82,9 @@ function App() {
       .then(() => {
         setCards((cadrs) => cadrs.filter((item) => item._id !== card._id));
         setIsLoading(false);
+        closeAllPopups()
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`))
-      closeAllPopups()
   }
 
   function handleUpdateUser(currentUser) {
@@ -94,9 +94,9 @@ function App() {
       .then((data) => {
         setCurrentUser(data);
         setIsLoading(false);
+        closeAllPopups()
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`));
-      closeAllPopups()
   }
 
   function handleUpdateAvatar(currentUser) {
@@ -106,9 +106,9 @@ function App() {
       .then((data) => {
         setCurrentUser(data);
         setIsLoading(false);
+        closeAllPopups()
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`));
-      closeAllPopups()
   }
 
   function handleAddPlaceSubmit(card) {
@@ -118,9 +118,9 @@ function App() {
       .then((newCard) => {
         setCards([newCard, ...cards]);
         setIsLoading(false);
+        closeAllPopups()
       })
       .catch((error) => console.log(`Произошла ошибка: ${error}`))
-      closeAllPopups()
   }
 
   return (
